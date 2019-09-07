@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from flask import Flask
 from flask import render_template
+from flask import request
+
 # Importing the dataset
 dataset = pd.read_csv('Churn_Modelling.csv')
 X = dataset.iloc[:, 3:13].values
@@ -101,6 +103,23 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return render_template('index.html')
+
+@app.route("/predict")
+def (predict):
+
+    geography = request.args.get('geography')
+    credit_score = request.args.get('creditScore')
+    gender = request.args.get('gender')
+    age = request.args.get('age')
+    tenure = request.args.get('tenure')
+    balance = request.args.get('balance')
+    products = request.args.get('products')
+    has_credit_card = request.args.get('hasCreditCard')
+    is_active_member = request.args.get('isActiveMember')
+    salary = request.args.get('salary')
+    new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary]])))
+    new_prediction = (new_prediction > 0.5)
+    return (new_prediction)
 
 # run the application
 if __name__ == "__main__":
