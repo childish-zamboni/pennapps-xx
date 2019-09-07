@@ -15,8 +15,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
+from flask import Flask
+from flask import render_template
 # Importing the dataset
 dataset = pd.read_csv('Churn_Modelling.csv')
 X = dataset.iloc[:, 3:13].values
@@ -94,23 +94,14 @@ cm = confusion_matrix(y_test, y_pred)
 
 
 # Hosting on a server
-hostName = "localhost"
-hostPort = 5000
+# creates a Flask application, named app
+app = Flask(__name__)
 
-class MyServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-        
-        if (self.path == "/"):
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write(bytes("lol"))
-            
-myServer = HTTPServer((hostName, hostPort), MyServer)
+# a route where we will display a welcome message via an HTML template
+@app.route("/")
+def hello():
+    return render_template('index.html')
 
-try:
-    myServer.serve_forever()
-except KeyboardInterrupt:
-    pass
-
-myServer.server_close()
+# run the application
+if __name__ == "__main__":
+    app.run()
