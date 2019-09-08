@@ -68,7 +68,7 @@ Estimated Salary: 50000"""
 #new_prediction = (new_prediction > 0.5)
 #print(new_prediction)
 
-def predict_helper(a, b, c, d, e, f, g, h, i, j):
+def predict_helper(a1, a2, b, c, d, e, f, g, h, i, j):
     # Initialising the ANN
     classifier = Sequential()
 
@@ -93,7 +93,7 @@ def predict_helper(a, b, c, d, e, f, g, h, i, j):
     y_pred = classifier.predict(X_test)
     y_pred = (y_pred > 0.5)
 
-    output = classifier.predict(sc.transform(np.array([[0.0, a, b, c, d, e, f, g, h, i, j]])))
+    output = classifier.predict(sc.transform(np.array([[a1, a2, b, c, d, e, f, g, h, i, j]])))
     return output
 
 #print(predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000))
