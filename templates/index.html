@@ -133,7 +133,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 	<script>
 
+	function submit() {
 
+		var creditScore = document.getElementById('score').value;
+		var age = document.getElementById('age').value;
+	}
 
 		function predict(geography, creditScore, gender, age, tenure, balance, products, hasCreditCard, isActiveMember, salary) {
 			axios.get('predict', {params: {geography: geography, creditScore:creditScore, gender:gender, age:age, tenure:tenure, balance: balance, products:products, hasCreditCard:hasCreditCard, isActiveMember:isActiveMember, salary:salary}})
