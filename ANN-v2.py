@@ -93,6 +93,7 @@ def predict_helper(a1, a2, b, c, d, e, f, g, h, i, j):
     y_pred = classifier.predict(X_test)
     y_pred = (y_pred > 0.5)
 
+    print(a1, a2, b, c, d, e, f, g, h, i, j)
     output = classifier.predict(sc.transform(np.array([[a1, a2, b, c, d, e, f, g, h, i, j]])))
     return output
 
