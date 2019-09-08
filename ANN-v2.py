@@ -110,7 +110,8 @@ def hello():
 
 @app.route("/predict")
 def predict():
-    geography = request.args.get('geography')
+    location1 = request.args.get('location1')
+    location2 = request.args.get('location2')
     credit_score = request.args.get('creditScore')
     gender = request.args.get('gender')
     age = request.args.get('age')
@@ -120,11 +121,10 @@ def predict():
     has_credit_card = request.args.get('hasCreditCard')
     is_active_member = request.args.get('isActiveMember')
     salary = request.args.get('salary')
-    print(geography, credit_score, salary)
-    #new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary]])))
+    #new_prediction = classifier.predict(sc.transform(np.array([[location1, location2, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary]])))
     #new_prediction = (new_prediction > 0.5)
     #new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
-    new_prediction = predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000)
+    new_prediction = predict_helper(location1, location2, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary)
     print(new_prediction[0][0])
     return (str(new_prediction[0][0]))
 

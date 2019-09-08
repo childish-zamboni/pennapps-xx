@@ -36,14 +36,14 @@
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="score" type="email" class="validate">
+            <input id="score" type="number" class="validate">
             <label for="score">Credit Score</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-			<input id="email" type="email" class="validate" disabled>
-			<select class="browser-default">
+			<input id="location" type="email" class="validate" disabled>
+			<select class="browser-default" id="locationSelect">
 					<option value="" disabled selected>Choose a country</option>
 					<option value="1">France</option>
 					<option value="2">Germany</option>
@@ -55,7 +55,7 @@
         <div class="row">
           <div class="input-field col s8 offset-s2">
 			<input id="gender" type="email" class="validate"disabled>
-			<select class="browser-default">
+			<select class="browser-default" id="genderSelect">
 					<option value="" disabled selected>Choose a gender</option>
 					<option value="1">Male</option>
 					<option value="2">Female</option>
@@ -65,32 +65,32 @@
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="age" type="email" class="validate">
+            <input id="age" type="number" class="validate">
             <label for="age">Age</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="tenure" type="email" class="validate">
+            <input id="tenure" type="number" class="validate">
             <label for="tenure">Tenure</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="balance" type="email" class="validate">
+            <input id="balance" type="number" class="validate">
             <label for="balance">Balance</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="products" type="email" class="validate">
+            <input id="products" type="number" class="validate">
             <label for="products">Number of products</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
 			<input id="creditCard" type="email" class="validate" disabled>
-			<select class="browser-default">
+			<select class="browser-default" id="creditCardSelect">
 					<option value="" disabled selected>Choose an option</option>
 					<option value="1">Yes</option>
 					<option value="2">No</option>
@@ -101,7 +101,7 @@
         <div class="row">
           <div class="input-field col s8 offset-s2">
 			<input id="member" type="email" class="validate" disabled>
-			<select class="browser-default">
+			<select class="browser-default" id="activeMemberSelect">
 					<option value="" disabled selected>Choose an option</option>
 					<option value="1">Yes</option>
 					<option value="2">No</option>
@@ -111,7 +111,7 @@
         </div>
         <div class="row">
           <div class="input-field col s8 offset-s2">
-            <input id="salary" type="email" class="validate">
+            <input id="salary" type="number" class="validate">
             <label for="salary">Estimated Salary</label>
           </div>
         </div>
@@ -135,12 +135,44 @@
 
 	function submit() {
 
-		var creditScore = document.getElementById('score').value;
-		var age = document.getElementById('age').value;
+		var creditScore = parseInt(document.getElementById('score').value);
+		var age = parseInt(document.getElementById('age').value);
+		var location = parseInt(document.getElementById('locationSelect').value);
+		var tenure = parseInt(document.getElementById('tenure').value);
+		var balance = parseInt(document.getElementById('balance').value);
+		var products = parseInt(document.getElementById('products').value);
+		var salary = parseInt(document.getElementById('salary').value);
+		var hasCreditCard = parseInt(document.getElementById('creditCardSelect').value);
+		if (hasCreditCard === 2) {
+			hasCreditCard = 0;
+		}
+		var isActiveMember = parseInt(document.getElementById('activeMemberSelect').value);
+		if (isActiveMember === 2) {
+			isActiveMember = 0;
+		}
+
+		var location1, location2;
+		if (location === 1) {
+			location1 = 0;
+			location2 = 0;
+		} else if (location === 2) {
+			location1 = 1;
+			location2 = 0;
+		} else if (location === 3) {
+			location1 = 0;
+			location2 = 1;
+		}
+		var gender = parseInt(document.getElementById('genderSelect').value);
+		if (gender === 2) {
+			gender = 0;
+		}
+
+		//console.log(age, location, tenure, balance, products, salary, hasCreditCard, isActiveMember, location1, location2, gender);
+		predict(location1, location2, creditScore, gender, age, tenure, balance, products, hasCreditCard, isActiveMember, salary);
 	}
 
-		function predict(geography, creditScore, gender, age, tenure, balance, products, hasCreditCard, isActiveMember, salary) {
-			axios.get('predict', {params: {geography: geography, creditScore:creditScore, gender:gender, age:age, tenure:tenure, balance: balance, products:products, hasCreditCard:hasCreditCard, isActiveMember:isActiveMember, salary:salary}})
+		function predict(location1, location2, creditScore, gender, age, tenure, balance, products, hasCreditCard, isActiveMember, salary) {
+			axios.get('predict', {params: {location1: location1, location2: location2, creditScore:creditScore, gender:gender, age:age, tenure:tenure, balance: balance, products:products, hasCreditCard:hasCreditCard, isActiveMember:isActiveMember, salary:salary}})
 			.then(function(res) {console.log(res.data)});
 		}
 
