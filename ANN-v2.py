@@ -95,7 +95,7 @@ def predict_helper(a, b, c, d, e, f, g, h, i, j):
     output = classifier.predict(sc.transform(np.array([[0.0, a, b, c, d, e, f, g, h, i, j]])))
     return output
 
-print(predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000))
+#print(predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000))
 
 # Hosting on a server
 # creates a Flask application, named app
@@ -126,8 +126,8 @@ def predict():
     print(new_prediction[0][0])
     return (str(new_prediction[0][0]))
 
-new_prediction = predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000)
-print(new_prediction)
+#new_prediction = predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000)
+#print(new_prediction)
 
 # run the application
 if __name__ == "__main__":
