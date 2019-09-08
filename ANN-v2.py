@@ -51,30 +51,6 @@ import keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 
-# Initialising the ANN
-classifier = Sequential()
-
-# Adding the input layer and the first hidden layer
-classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
-
-# Adding the second hidden layer
-classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
-
-# Adding the output layer
-classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
-
-# Compiling the ANN
-classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-
-# Fitting the ANN to the Training set
-classifier.fit(X_train, y_train, batch_size = 10, epochs = 100)
-
-# Part 3 - Making predictions and evaluating the model
-
-# Predicting the Test set results
-y_pred = classifier.predict(X_test)
-y_pred = (y_pred > 0.5)
-
 # Predicting a single new observation
 """Predict if the customer with the following informations will leave the bank:
 Geography: France
@@ -87,13 +63,39 @@ Number of Products: 2
 Has Credit Card: Yes
 Is Active Member: Yes
 Estimated Salary: 50000"""
-new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
-new_prediction = (new_prediction > 0.5)
+#new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
+#new_prediction = (new_prediction > 0.5)
+#print(new_prediction)
 
-# Making the Confusion Matrix
-from sklearn.metrics import confusion_matrix
-cm = confusion_matrix(y_test, y_pred)
+def predict_helper(a, b, c, d, e, f, g, h, i, j):
+    # Initialising the ANN
+    classifier = Sequential()
 
+    # Adding the input layer and the first hidden layer
+    classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = 11))
+
+    # Adding the second hidden layer
+    classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu'))
+
+    # Adding the output layer
+    classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
+
+    # Compiling the ANN
+    classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+    # Fitting the ANN to the Training set
+    classifier.fit(X_train, y_train, batch_size = 10, epochs = 5)
+
+    # Part 3 - Making predictions and evaluating the model
+
+    # Predicting the Test set results
+    y_pred = classifier.predict(X_test)
+    y_pred = (y_pred > 0.5)
+
+    output = classifier.predict(sc.transform(np.array([[0.0, a, b, c, d, e, f, g, h, i, j]])))
+    return output
+
+#print(predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000))
 
 # Hosting on a server
 # creates a Flask application, named app
@@ -105,8 +107,7 @@ def hello():
     return render_template('index.html')
 
 @app.route("/predict")
-def (predict):
-
+def predict():
     geography = request.args.get('geography')
     credit_score = request.args.get('creditScore')
     gender = request.args.get('gender')
@@ -117,9 +118,16 @@ def (predict):
     has_credit_card = request.args.get('hasCreditCard')
     is_active_member = request.args.get('isActiveMember')
     salary = request.args.get('salary')
-    new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary]])))
-    new_prediction = (new_prediction > 0.5)
-    return (new_prediction)
+    print(geography, credit_score, salary)
+    #new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, credit_score, gender, age, tenure, balance, products, has_credit_card, is_active_member, salary]])))
+    #new_prediction = (new_prediction > 0.5)
+    #new_prediction = classifier.predict(sc.transform(np.array([[0.0, 0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000]])))
+    new_prediction = predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000)
+    print(new_prediction[0][0])
+    return (str(new_prediction[0][0]))
+
+#new_prediction = predict_helper(0, 600, 1, 40, 3, 60000, 2, 1, 1, 50000)
+#print(new_prediction)
 
 # run the application
 if __name__ == "__main__":
