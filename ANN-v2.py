@@ -18,6 +18,7 @@ import pandas as pd
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask_ngrok import run_with_ngrok
 
 # Importing the dataset
 dataset = pd.read_csv('Churn_Modelling.csv')
@@ -100,6 +101,7 @@ def predict_helper(a, b, c, d, e, f, g, h, i, j):
 # Hosting on a server
 # creates a Flask application, named app
 app = Flask(__name__)
+run_with_ngrok(app)
 
 # a route where we will display a welcome message via an HTML template
 @app.route("/")
